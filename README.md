@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Chat app 💬 using websockets (Nodejs, Express & Socket.io)
 
 We are going to develop a chat application using Express, Websockets. Tough you can use plain websockets but we would be using a library called Socket.io - which is wrapper around Websockets, its super easy to use and provies a fallback to xhr requests until the websocket connection is established.
@@ -49,3 +50,7 @@ You can fork this repo and send me a PR.
 ## License
 
 This project is licensed under the MIT License.
+=======
+# Anonymous-Chat-Application
+This is a real-time chat app using **Node.js**, **Express**, and **Socket.IO**. It supports live messaging, typing feedback, and displays the total connected clients. The server handles socket connections, broadcasts messages, and updates client counts dynamically. The frontend is served from the public directory.
+>>>>>>> 5047cd3c44769843aa0c0d43d1ef588e7bab7af5
