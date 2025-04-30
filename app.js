@@ -1,10 +1,18 @@
 const express = require('express')
 const path = require('path')
 const app = express()
-const PORT = process.env.PORT || 4000
-const server = app.listen(PORT, () => console.log(`💬 server on port ${PORT}`))
 
-const io = require('socket.io')(server)
+const http = require('http');
+const server = http.createServer(app);
+
+const io = require('socket.io')(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"]
+  },
+  transports: ['polling'], // Force long-polling for Vercel
+  allowEIO3: true // Allow older clients
+});
 
 const Filter = require('bad-words');
 const customFilter = new Filter();
@@ -59,3 +67,10 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('feedback', data);
   });
 });
+
+if (process.env.NODE_ENV !== 'production') {
+  const PORT = process.env.PORT || 4000;
+  server.listen(PORT, () => console.log(`💬 server on port ${PORT}`));
+}
+
+module.exports = app;
