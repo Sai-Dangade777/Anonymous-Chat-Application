@@ -18,6 +18,11 @@ body {
   background-color: #ebebeb;
 }
 
+body.dark-mode {
+  background-color: #181818;
+  color: #f1f1f1;
+}
+
 .title {
   margin: 20px 0;
 }
@@ -28,6 +33,11 @@ body {
   overflow: hidden;
 }
 
+body.dark-mode .main {
+  border-color: #333;
+  background-color: #232323;
+}
+
 .name {
   display: flex;
   font-size: 32px;
@@ -35,6 +45,12 @@ body {
   padding: 8px 16px;
   color: #7e7e7e;
   background-color: #ebebeb;
+}
+
+body.dark-mode .name,
+body.dark-mode .name-input {
+  background-color: #232323;
+  color: #f1f1f1;
 }
 
 .name > span {
@@ -60,6 +76,10 @@ body {
   height: 600px;
   overflow-y: scroll;
   overflow-x: hidden;
+}
+
+body.dark-mode .message-container {
+  background-color: #222;
 }
 
 .message-left,
@@ -138,4 +158,26 @@ body {
 .clients-total {
   margin: 20px 0;
   color: #7e7e7e;
+}
+
+body.dark-mode .clients-total {
+  color: #bbb;
+}
+
+.theme-toggle {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  background: #eee;
+  cursor: pointer;
+  font-size: 16px;
+  z-index: 100;
+}
+
+body.dark-mode .theme-toggle {
+  background: #333;
+  color: #f1f1f1;
 }
