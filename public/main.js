@@ -7,6 +7,13 @@ const nameInput = document.getElementById('name-input')
 const messageForm = document.getElementById('message-form')
 const messageInput = document.getElementById('message-input')
 
+// Emit join event when username changes or on page load
+function emitJoin() {
+  socket.emit('join', nameInput.value || 'anonymous');
+}
+nameInput.addEventListener('change', emitJoin);
+window.addEventListener('DOMContentLoaded', emitJoin);
+
 const messageTone = new Audio('/message-tone.mp3')
 
 messageForm.addEventListener('submit', (e) => {
@@ -98,4 +105,10 @@ themeToggle.addEventListener('click', () => {
   } else {
     themeToggle.textContent = '🌙 Dark Mode';
   }
+});
+
+const onlineUsersDiv = document.getElementById('online-users');
+
+socket.on('online-users', (users) => {
+  onlineUsersDiv.textContent = `Online: ${users.join(', ')}`;
 });

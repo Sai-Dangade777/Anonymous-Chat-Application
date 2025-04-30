@@ -23,31 +23,39 @@ customFilter.addWords(
 app.use(express.static(path.join(__dirname, 'public')))
 
 let socketsConected = new Set()
+let onlineUsers = {}; // username: socket.id
 
 function filterProfanity(message) {
   return customFilter.clean(message);
 }
 
-io.on('connection', onConnected)
+io.on('connection', (socket) => {
+  console.log('Socket connected', socket.id);
 
-function onConnected(socket) {
-  console.log('Socket connected', socket.id)
-  socketsConected.add(socket.id)
-  io.emit('clients-total', socketsConected.size)
+  socket.on('join', (username) => {
+    onlineUsers[username] = socket.id;
+    io.emit('online-users', Object.keys(onlineUsers));
+  });
 
   socket.on('disconnect', () => {
-    console.log('Socket disconnected', socket.id)
-    socketsConected.delete(socket.id)
-    io.emit('clients-total', socketsConected.size)
-  })
+    // Remove user by socket id
+    for (const [name, id] of Object.entries(onlineUsers)) {
+      if (id === socket.id) {
+        delete onlineUsers[name];
+        break;
+      }
+    }
+    io.emit('online-users', Object.keys(onlineUsers));
+    socketsConected.delete(socket.id);
+    io.emit('clients-total', socketsConected.size);
+  });
 
   socket.on('message', (data) => {
-    // Filter profanity before broadcasting
     data.message = filterProfanity(data.message);
-    socket.broadcast.emit('chat-message', data)
-  })
+    socket.broadcast.emit('chat-message', data);
+  });
 
   socket.on('feedback', (data) => {
-    socket.broadcast.emit('feedback', data)
-  })
-}
+    socket.broadcast.emit('feedback', data);
+  });
+});
