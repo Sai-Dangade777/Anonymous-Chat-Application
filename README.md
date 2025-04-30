@@ -39,10 +39,6 @@ Step 4: Start the chat app
 npm start
 ```
 
-## Author
-
-- [**Truly Mittal**](https://trulymittal.com)
-
 ## Contribute
 
 You can fork this repo and send me a PR.
@@ -53,4 +49,4 @@ This project is licensed under the MIT License.
 =======
 # Anonymous-Chat-Application
 This is a real-time chat app using **Node.js**, **Express**, and **Socket.IO**. It supports live messaging, typing feedback, and displays the total connected clients. The server handles socket connections, broadcasts messages, and updates client counts dynamically. The frontend is served from the public directory.
->>>>>>> 5047cd3c44769843aa0c0d43d1ef588e7bab7af5
+
