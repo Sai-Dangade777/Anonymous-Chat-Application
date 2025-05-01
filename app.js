@@ -59,7 +59,9 @@ io.on('connection', (socket) => {
   });
 
   socket.on('message', (data) => {
-    data.message = filterProfanity(data.message);
+    if (data.message && data.message.trim() !== '') {
+      data.message = filterProfanity(data.message);
+    }
     socket.broadcast.emit('chat-message', data);
   });
 
