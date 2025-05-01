@@ -24,8 +24,9 @@ messageForm.addEventListener('submit', async (e) => {
     const reader = new FileReader();
     reader.onload = function(evt) {
       const data = {
+        id: Date.now() + Math.random(),
         name: nameInput.value,
-        message: '', // No text message, just file
+        message: '',
         file: {
           name: file.name,
           type: file.type,
@@ -37,7 +38,7 @@ messageForm.addEventListener('submit', async (e) => {
       addMessageToUI(true, data);
       fileInput.value = '';
     };
-    reader.readAsDataURL(file);
+    reader.readAsDataURL(file); // This is important for images!
   } else {
     sendMessage();
   }
@@ -70,7 +71,7 @@ function addMessageToUI(isOwnMessage, data) {
   clearFeedback();
   let fileElement = '';
   if (data.file) {
-    if (data.file.type.startsWith('image/')) {
+    if (data.file.type && data.file.type.startsWith('image/')) {
       fileElement = `<img src="${data.file.data}" alt="${data.file.name}" style="max-width:200px;max-height:200px;display:block;margin-top:8px;" />`;
     } else {
       fileElement = `<a href="${data.file.data}" download="${data.file.name}" style="display:block;margin-top:8px;">Download ${data.file.name}</a>`;
