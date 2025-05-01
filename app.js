@@ -2,8 +2,8 @@ const express = require('express')
 const path = require('path')
 const app = express()
 
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ limit: '10mb', extended: true }));
+app.use(express.json({ limit: '20mb' }));
+app.use(express.urlencoded({ limit: '20mb', extended: true }));
 
 const http = require('http');
 const server = http.createServer(app);
