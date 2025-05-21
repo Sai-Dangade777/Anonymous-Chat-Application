@@ -69,24 +69,35 @@ socket.on('chat-message', (data) => {
 
 function addMessageToUI(isOwnMessage, data) {
   clearFeedback();
-  let fileElement = '';
+  let fileElement = document.createElement('div');
   if (data.file) {
     if (data.file.type && data.file.type.startsWith('image/')) {
-      fileElement = `<img src="${data.file.data}" alt="${data.file.name}" style="max-width:200px;max-height:200px;display:block;margin-top:8px;" />`;
+      const img = document.createElement('img');
+      img.src = data.file.data;
+      img.alt = data.file.name;
+      img.style = "max-width:200px;max-height:200px;display:block;margin-top:8px;";
+      fileElement.appendChild(img);
     } else {
-      fileElement = `<a href="${data.file.data}" download="${data.file.name}" style="display:block;margin-top:8px;">Download ${data.file.name}</a>`;
+      const link = document.createElement('a');
+      link.href = data.file.data;
+      link.download = data.file.name;
+      link.textContent = `Download ${data.file.name}`;
+      link.style = "display:block;margin-top:8px;";
+      fileElement.appendChild(link);
     }
   }
-  const element = `
-      <li class="${isOwnMessage ? 'message-right' : 'message-left'}">
-          <p class="message">
-            ${data.message}
-            ${fileElement}
-            <span>${data.name} ● ${moment(data.dateTime).fromNow()}</span>
-          </p>
-        </li>
-        `;
-  messageContainer.innerHTML += element;
+  const listItem = document.createElement('li');
+  listItem.className = isOwnMessage ? 'message-right' : 'message-left';
+  const messageParagraph = document.createElement('p');
+  messageParagraph.className = 'message';
+  const messageText = document.createTextNode(data.message);
+  const messageMeta = document.createElement('span');
+  messageMeta.textContent = `${data.name} ● ${moment(data.dateTime).fromNow()}`;
+  messageParagraph.appendChild(messageText);
+  messageParagraph.appendChild(fileElement);
+  messageParagraph.appendChild(messageMeta);
+  listItem.appendChild(messageParagraph);
+  messageContainer.appendChild(listItem);
   scrollToBottom();
 }
 
