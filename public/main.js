@@ -112,13 +112,15 @@ messageInput.addEventListener('blur', (e) => {
 })
 
 socket.on('feedback', (data) => {
-  clearFeedback()
-  const element = `
-        <li class="message-feedback">
-          <p class="feedback" id="feedback">${data.feedback}</p>
-        </li>
-  `
-  messageContainer.innerHTML += element
+  clearFeedback();
+  const listItem = document.createElement('li');
+  listItem.classList.add('message-feedback');
+  const feedbackParagraph = document.createElement('p');
+  feedbackParagraph.classList.add('feedback');
+  feedbackParagraph.id = 'feedback';
+  feedbackParagraph.textContent = data.feedback; // Safely set text content
+  listItem.appendChild(feedbackParagraph);
+  messageContainer.appendChild(listItem);
 })
 
 function clearFeedback() {
