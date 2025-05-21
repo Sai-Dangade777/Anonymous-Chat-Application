@@ -65,6 +65,13 @@ io.on('connection', (socket) => {
     if (data.message && data.message.trim() !== '') {
       data.message = filterProfanity(data.message);
     }
+    if (data.file && data.file.data) {
+      const base64Pattern = /^data:(image\/[a-zA-Z]+);base64,[a-zA-Z0-9+/=]+$/;
+      if (!base64Pattern.test(data.file.data)) {
+        console.error('Invalid file data received');
+        return;
+      }
+    }
     socket.broadcast.emit('chat-message', data);
   });
 

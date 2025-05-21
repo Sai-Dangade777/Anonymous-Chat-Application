@@ -73,13 +73,23 @@ function addMessageToUI(isOwnMessage, data) {
   if (data.file) {
     if (data.file.type && data.file.type.startsWith('image/')) {
       const img = document.createElement('img');
-      img.src = data.file.data;
+      if (data.file.data.startsWith('data:image/')) {
+        img.src = data.file.data;
+      } else {
+        console.error('Invalid image data');
+        return;
+      }
       img.alt = data.file.name;
       img.style = "max-width:200px;max-height:200px;display:block;margin-top:8px;";
       fileElement.appendChild(img);
     } else {
       const link = document.createElement('a');
-      link.href = data.file.data;
+      if (data.file.data.startsWith('data:')) {
+        link.href = data.file.data;
+      } else {
+        console.error('Invalid file data');
+        return;
+      }
       link.download = data.file.name;
       link.textContent = `Download ${data.file.name}`;
       link.style = "display:block;margin-top:8px;";
